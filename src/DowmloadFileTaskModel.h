@@ -1,6 +1,8 @@
-//
+﻿//
 // Created by 毛华伟 on 2020/3/9.
 //
+
+#pragma execution_character_set("utf-8")
 
 #ifndef MULTI_THREADED_MULTI_FILE_BREAKPOINT_RESUME_DOWMLOADFILETASKMODEL_H
 #define MULTI_THREADED_MULTI_FILE_BREAKPOINT_RESUME_DOWMLOADFILETASKMODEL_H
@@ -9,14 +11,22 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QSqlDatabase>
+#include <QStringList>
+#include <QVariant>
+#include <QHash>
+#include "DownloadClient.h"
+
 
 class DowmloadFileTaskModel : public QSqlQueryModel {
 
-  Q_OBJECT
+Q_OBJECT
 public:
   DowmloadFileTaskModel();
 
 public slots:
+
+  void start(QString url);
 
 private:
 
@@ -36,6 +46,10 @@ private:
       "    _position           integer,\n"
       "    _finish             boolean\n"
       ");";
+
+
+  QSqlQuery qSqlQuery;
+
 };
 
 #endif // MULTI_THREADED_MULTI_FILE_BREAKPOINT_RESUME_DOWMLOADFILETASKMODEL_H

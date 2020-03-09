@@ -4,11 +4,18 @@ project(multi_threaded_multi_file_breakpoint_resume)
 set(CMAKE_CXX_STANDARD 20)
 
 
+set(CMAKE_AUTOMOC ON)
+
 find_package(Qt5 COMPONENTS Core Quick qml sql Network Widgets WebEngine WebChannel Multimedia LinguistTools QuickControls2 WebSockets REQUIRED)
 
 
 
-add_executable(multi_threaded_multi_file_breakpoint_resume src/main.cpp src/DowmloadFileTaskModel.cpp src/DowmloadFileTaskModel.h src/DownloadFileManagerModel.cpp src/DownloadFileManagerModel.h)
+add_executable(multi_threaded_multi_file_breakpoint_resume
+    src/main.cpp
+    src/DowmloadFileTaskModel.cpp
+    src/DowmloadFileTaskModel.h
+    src/DownloadFileManagerModel.cpp
+    src/DownloadFileManagerModel.h src/DownloadClient.cpp src/DownloadClient.h src/FileMerge.cpp src/FileMerge.h)
 
 
 

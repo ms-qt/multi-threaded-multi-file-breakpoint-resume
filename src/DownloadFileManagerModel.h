@@ -1,6 +1,7 @@
-//
+﻿//
 // Created by 毛华伟 on 2020/3/9.
 //
+#pragma execution_character_set("utf-8")
 
 #ifndef MULTI_THREADED_MULTI_FILE_BREAKPOINT_RESUME_DOWNLOADFILEMANAGERMODEL_H
 #define MULTI_THREADED_MULTI_FILE_BREAKPOINT_RESUME_DOWNLOADFILEMANAGERMODEL_H
@@ -14,6 +15,9 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QSqlResult>
+
+#include "DowmloadFileTaskModel.h"
+
 
 class DownloadFileManagerModel : public QSqlQueryModel {
 
@@ -57,7 +61,7 @@ private:
       "    _id                 integer primary key autoincrement,\n"
       "    _url                varchar(8192),\n"
       "    _file_name          varchar(255),\n"
-      "    _download_save_path varchar(255),\n"
+      "    _download_save_dir varchar(255),\n"
       "    _full_save_path     varchar(255),\n"
       "    _file_length        integer,\n"
       "    _thread_count       integer,\n"
@@ -109,6 +113,8 @@ private:
   const int DOWNLOAD_FINISH = 1;
   // 下载中
   const int DOWNLOAD_ING = 0;
+
+  DowmloadFileTaskModel *dowmloadFileTaskModel;
 
 
 };

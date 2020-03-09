@@ -1,3 +1,4 @@
+#pragma execution_character_set("utf-8")
 #include <QDebug>
 #include <QDir>
 #include <QSqlDatabase>
@@ -7,6 +8,8 @@
 
 #include <QCoreApplication>
 
+#include "DownloadFileManagerModel.h"
+#include "FileMerge.h"
 // 初始化数据库
 static void initDb() {
 
@@ -41,6 +44,15 @@ int main(int argc, char *argv[]) {
 
   // 初始化数据库
   initDb();
+
+  DownloadFileManagerModel *managerModel = new DownloadFileManagerModel();
+
+  managerModel->addDownloadTask("web", "https://dlied4.myapp.com/myapp/1104466820/cos.release-40109/2017_com.tencent.tmgp.sgame_h652813_1.52.1.5_3rlzl9.apk");
+
+
+ // FileMerge *fileMerge = new FileMerge();
+
+
 
   return app.exec();
 }
