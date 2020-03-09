@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.15)
+project(multi_threaded_multi_file_breakpoint_resume)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_executable(multi_threaded_multi_file_breakpoint_resume main.cpp)

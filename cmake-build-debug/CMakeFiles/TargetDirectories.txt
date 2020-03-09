@@ -1,0 +1,3 @@
+/Users/maohuawei/src/qt/multi-threaded multi-file-breakpoint-resume/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/maohuawei/src/qt/multi-threaded multi-file-breakpoint-resume/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/maohuawei/src/qt/multi-threaded multi-file-breakpoint-resume/cmake-build-debug/CMakeFiles/multi_threaded_multi_file_breakpoint_resume.dir
