@@ -13,9 +13,12 @@ class FileMerge {
 public:
   FileMerge() {
 
-    QString dirpath =QDir::currentPath()+"/downloadtemp";
+    int position = 0;
+
+    QString dirpath = QDir::currentPath() + "/downloadtemp";
 
     QFile mergeFile(dirpath + "\\merge.apk");
+
     if (mergeFile.open(QIODevice::WriteOnly | QIODevice::Append)) {
     }
     //设置要遍历的目录
@@ -30,14 +33,11 @@ public:
 
     for (QString it : files) {
       qDebug() << dirpath + "/" + it;
-
       QFile t_file(dirpath + "/" + it);
-
-      if (t_file.open(QIODevice::ReadWrite
-                      | QIODevice::Append)) {
-        qDebug() << "打开成功"<<t_file.readAll().size();
+      if (t_file.open(QIODevice::ReadWrite | QIODevice::Append)) {
         t_file.seek(0);
-        mergeFile.write(t_file.readAll());
+        //mergeFile.seek(position);
+        position = mergeFile.write(t_file.readAll());
         qDebug() << "刷新";
         mergeFile.flush();
       } else {

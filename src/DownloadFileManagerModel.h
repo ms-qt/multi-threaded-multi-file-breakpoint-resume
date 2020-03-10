@@ -51,6 +51,11 @@ public slots:
   // 更具url 获取文件名称
   QString getNameByUrl(QString url);
 
+
+  void mergeFile(QString url);
+
+
+
 private:
   // 表名称
   QString __TABLE_NAME__ = "_download_info";
@@ -104,15 +109,6 @@ private:
 
   // 文件下载过程中存放的地方
   QString downloadTempDir;
-
-
-  // 下载常量表示
-  // 下载未开始
-  const int DOWNLOAD_NOT_START = -1;
-  // 下载完成
-  const int DOWNLOAD_FINISH = 1;
-  // 下载中
-  const int DOWNLOAD_ING = 0;
 
   DowmloadFileTaskModel *dowmloadFileTaskModel;
 

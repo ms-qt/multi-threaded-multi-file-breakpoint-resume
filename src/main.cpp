@@ -45,12 +45,25 @@ int main(int argc, char *argv[]) {
   // 初始化数据库
   initDb();
 
-  DownloadFileManagerModel *managerModel = new DownloadFileManagerModel();
+  //DownloadFileManagerModel *managerModel = new DownloadFileManagerModel();
 
-  managerModel->addDownloadTask("web", "https://dlied4.myapp.com/myapp/1104466820/cos.release-40109/2017_com.tencent.tmgp.sgame_h652813_1.52.1.5_3rlzl9.apk");
+ // managerModel->addDownloadTask("web", "https://dlied4.myapp.com/myapp/1104466820/cos.release-40109/2017_com.tencent.tmgp.sgame_h652813_1.52.1.5_3rlzl9.apk");
+ // managerModel->addDownloadTask("web", "https://07e5e3085316c337a91fe2a02dae2d71.dlied1.cdntips.com/godlied4.myapp.com/myapp/1104466820/cos.release-40109/2017_com.tencent.tmgp.sgame_h652813_1.52.1.5_3rlzl9.apk?mkey=5e672841ddd86d13&f=5846&cip=221.216.75.230&proto=https");
 
 
  // FileMerge *fileMerge = new FileMerge();
+
+
+  QFile file("F:/src/qt/multi-threaded-multi-file-breakpoint-resume/cmake-build-debug/plugins/webs/2017_com.tencent\n"
+             ".tmgp.sgame_h652813_1.52.1.5_3rlzl9.apk");
+
+  if(file.open(QIODevice::ReadWrite | QIODevice::Append))
+  {
+    qDebug()<<"打开成功";
+
+  }else{
+    qDebug()<<"打开失败";
+  }
 
 
 

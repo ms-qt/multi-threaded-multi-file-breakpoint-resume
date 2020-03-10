@@ -28,6 +28,8 @@ create table _download_info
 
 
 
+
+
 insert into _download_info(_url, _file_name, _download_save_dir, _full_save_path, _file_length, _thread_count, _status)
 values (:_url, :_file_name, :_download_save_path, :_full_save_path, :_file_length, :_threac_count, :_status);
 
@@ -72,3 +74,4 @@ values (
 
 drop table _download_info;
 drop table _download_task_info;
+

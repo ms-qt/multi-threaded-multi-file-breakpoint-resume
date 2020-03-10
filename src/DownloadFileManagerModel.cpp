@@ -49,12 +49,24 @@ void DownloadFileManagerModel::addDownloadTask(QString type, QString url) {
       fullFilePath = QDir::currentPath() + "/plugins/webs";
     }
 
+    qDebug() << "文件存储路径 : " << fullFilePath;
+
+    QDir dir(fullFilePath);
+
+    if (!dir.exists()) {
+
+      bool res = dir.mkdir(dir.absolutePath());
+      qDebug() << "文件夹不存在 创建结果 : " << res;
+    } else {
+      qDebug() << "文件夹存在";
+    }
+
     QNetworkRequest request(url);
 
-    // request.setRawHeader("Accept-Encoding","identity");
+    request.setRawHeader("Accept-Encoding", "identity");
     // 加入下面参数，可以获取文件大小
     // gzip
-    request.setRawHeader("Accept-Encoding", "gzip, deflate, br");
+    // request.setRawHeader("Accept-Encoding", "gzip, deflate, br");
     reply = manager->head(request);
     connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this,
             SLOT(downloadProgress(qint64, qint64)));
@@ -69,8 +81,24 @@ void DownloadFileManagerModel::addDownloadTask(QString type, QString url) {
     // 如果任务已经完成 ，删除
     if (checkTaskFinish(url)) {
 
+      qDebug() << "任务已经完成，删除信息";
+
+      QString delete_sql =
+          "delete  from  _download_info where _url = '" + url + "';";
+
+      if (sqlQuery.exec(delete_sql)) {
+        qDebug() << "删除成功" << sqlQuery.lastError();
+      } else {
+        qDebug() << "删除失败" << sqlQuery.lastError();
+      }
+      QString delete_download_task_info_sql  ="delete from _download_task_info where _url = '"+url+"'";
+      sqlQuery.exec(delete_download_task_info_sql);
+
     } else {
       // 没有完成 继续下载
+      qDebug() << "任务没有完成，继续下载";
+      // 继续下载
+      dowmloadFileTaskModel->start(url);
     }
   }
 }
@@ -100,7 +128,24 @@ bool DownloadFileManagerModel::checkTaskExists(QString url) {
   return exists;
 }
 
-bool DownloadFileManagerModel::checkTaskFinish(QString url) { return false; }
+// 检查任务是否已经下载完成
+bool DownloadFileManagerModel::checkTaskFinish(QString url) {
+  bool finish = false;
+
+  QString check_finish_sql = "select _status from _download_info  where _url='" + url + "'";
+
+  if (sqlQuery.exec(check_finish_sql)) {
+    while (sqlQuery.next()) {
+      int _status = sqlQuery.value(0).toInt();
+      if (_status == DOWNLOAD_FINISH) {
+        // 说明下载完成
+        finish = true;
+      }
+    }
+  } else {
+  }
+  return finish;
+}
 
 void DownloadFileManagerModel::downloadProgress(qint64 bytesReceived,
                                                 qint64 bytesTotal) {}
@@ -110,6 +155,19 @@ QString DownloadFileManagerModel::getNameByUrl(QString url) {
 }
 
 void DownloadFileManagerModel::finish() {
+
+  // QNetworkReply
+  // attribute函数返回QVariant对象，使用value<T>()函数返回进行向下转型
+  int code =
+      reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).value<int>();
+
+  qDebug() << "状态响应码 : " << code;
+
+  //返回重定向地址
+  QString t_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute)
+                      .value<QString>();
+
+  qDebug() << "重定向地址 : " << t_url;
 
   // 文件大小，字符串
   QString fileSize;
@@ -150,10 +208,10 @@ void DownloadFileManagerModel::finish() {
   // 最后一快大小
   int laster_block_size = file_length % MAX_THREAD_COUNT;
   // 去除最后一块，剩下的可以整除
-  int ave_length = file_length - laster_block_size;
-  qDebug() << "length1 : " << ave_length;
+  int ave_total_length = file_length - laster_block_size;
+  qDebug() << "ave_total_length : " << ave_total_length;
   // 平均每个线程下载的大小
-  int t_size = ave_length / thread_count;
+  int t_size = ave_total_length / thread_count;
   qDebug() << "每一个线程下载大小 : " << t_size;
   qDebug() << "最后一块大小 : " << laster_block_size;
 
@@ -184,8 +242,8 @@ void DownloadFileManagerModel::finish() {
   // 循环线程
   for (int i = 0; i < thread_count; i++) {
 
-    int start_position = i * t_size + 1;
-    int end_position = t_size * (i+1);
+    int start_position = i * t_size;
+    int end_position = t_size * (i + 1) - 1;
 
     QString thread_id = file_name + QString::number(i + 1);
 
@@ -271,7 +329,7 @@ void DownloadFileManagerModel::finish() {
 
   sqlQuery.bindValue(":_start_position", file_length - laster_block_size);
 
-  sqlQuery.bindValue(":_end_position", file_length);
+  sqlQuery.bindValue(":_end_position", file_length - 1);
   sqlQuery.bindValue(":_position", 0);
   sqlQuery.bindValue(":_finish", false);
   if (sqlQuery.exec()) {
@@ -286,3 +344,5 @@ void DownloadFileManagerModel::finish() {
 void DownloadFileManagerModel::readyRead() {}
 
 void DownloadFileManagerModel::error(QNetworkReply::NetworkError) {}
+
+void DownloadFileManagerModel::mergeFile(QString url) {}

@@ -16,7 +16,7 @@
 #include <QVariant>
 #include <QHash>
 #include "DownloadClient.h"
-
+#include "DownloadProxy.h"
 
 class DowmloadFileTaskModel : public QSqlQueryModel {
 
@@ -25,15 +25,12 @@ public:
   DowmloadFileTaskModel();
 
 public slots:
-
   void start(QString url);
-
+  void downloadFinish(QString url,QString file_path);
+  QString getFullSavePath(QString url);
 private:
-
   // 表名称
   QString __TABLE_NAME__ = "_download_task_info";
-
-
   // 创建表
   QString __CREATE_TABLE__ = "create table _download_task_info\n"
       "(\n"
@@ -46,7 +43,6 @@ private:
       "    _position           integer,\n"
       "    _finish             boolean\n"
       ");";
-
 
   QSqlQuery qSqlQuery;
 

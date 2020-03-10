@@ -15,7 +15,7 @@ add_executable(multi_threaded_multi_file_breakpoint_resume
     src/DowmloadFileTaskModel.cpp
     src/DowmloadFileTaskModel.h
     src/DownloadFileManagerModel.cpp
-    src/DownloadFileManagerModel.h src/DownloadClient.cpp src/DownloadClient.h src/FileMerge.cpp src/FileMerge.h)
+    src/DownloadFileManagerModel.h src/DownloadClient.cpp src/DownloadClient.h src/FileMerge.cpp src/FileMerge.h src/DownloadProxy.cpp src/DownloadProxy.h src/DOWNLOAD_CONSTANT.h)
 
 
 
