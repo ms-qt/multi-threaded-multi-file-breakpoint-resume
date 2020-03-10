@@ -51,7 +51,7 @@ void DowmloadFileTaskModel::start(QString url) {
 
 void DowmloadFileTaskModel::downloadFinish(QString url, QString file_path) {
 
-  QString sql = "select _finish where _url='" + url + "'";
+  QString sql = "select _finish from _download_task_info where _url='" + url + "'";
   bool finish = true;
   if (qSqlQuery.exec(sql)) {
     while (qSqlQuery.next()) {
