@@ -22,6 +22,9 @@ DownloadFileManagerModel::DownloadFileManagerModel() {
 
   // 初始化的意思
   dowmloadFileTaskModel = new DowmloadFileTaskModel();
+
+  connect(DownloadProxy::getInstance(), SIGNAL(mergeFile(QString)), this,
+          SLOT(mergeFile(QString)));
 }
 
 void DownloadFileManagerModel::addDownloadTask(QString type, QString url) {
@@ -347,4 +350,10 @@ void DownloadFileManagerModel::readyRead() {}
 
 void DownloadFileManagerModel::error(QNetworkReply::NetworkError) {}
 
-void DownloadFileManagerModel::mergeFile(QString url) {}
+void DownloadFileManagerModel::mergeFile(QString url) {
+  // 下载成功
+
+  // 解压，或者放到指定的位置...
+
+  // 删除 下载的文件 和数据库信息
+}

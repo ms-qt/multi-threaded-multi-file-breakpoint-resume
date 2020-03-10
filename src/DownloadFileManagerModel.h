@@ -15,6 +15,7 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QSqlResult>
+#include <QString>
 
 #include "DowmloadFileTaskModel.h"
 

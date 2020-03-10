@@ -51,7 +51,8 @@ void DowmloadFileTaskModel::start(QString url) {
 
 void DowmloadFileTaskModel::downloadFinish(QString url, QString file_path) {
 
-  QString sql = "select _finish from _download_task_info where _url='" + url + "'";
+  QString sql =
+      "select _finish from _download_task_info where _url='" + url + "'";
   bool finish = true;
   if (qSqlQuery.exec(sql)) {
     while (qSqlQuery.next()) {
@@ -104,6 +105,9 @@ void DowmloadFileTaskModel::downloadFinish(QString url, QString file_path) {
           "update _download_info  set _status=" +
           QString::number(DOWNLOAD_FINISH);
       qSqlQuery.exec(update_download_info_status_sql);
+
+      // 发送信号，碎片文件合并成功
+      emit DownloadProxy::getInstance()->mergeFile(mergeFilePath);
 
     } else {
       qDebug() << "查询碎片文件失败" << qSqlQuery.lastError();
