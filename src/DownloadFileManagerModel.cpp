@@ -54,8 +54,8 @@ void DownloadFileManagerModel::addDownloadTask(QString type, QString url) {
     QDir dir(fullFilePath);
 
     if (!dir.exists()) {
-
-      bool res = dir.mkdir(dir.absolutePath());
+      bool res = dir.mkpath(fullFilePath);
+      dir.refresh();
       qDebug() << "文件夹不存在 创建结果 : " << res;
     } else {
       qDebug() << "文件夹存在";
@@ -91,7 +91,8 @@ void DownloadFileManagerModel::addDownloadTask(QString type, QString url) {
       } else {
         qDebug() << "删除失败" << sqlQuery.lastError();
       }
-      QString delete_download_task_info_sql  ="delete from _download_task_info where _url = '"+url+"'";
+      QString delete_download_task_info_sql =
+          "delete from _download_task_info where _url = '" + url + "'";
       sqlQuery.exec(delete_download_task_info_sql);
 
     } else {
@@ -132,7 +133,8 @@ bool DownloadFileManagerModel::checkTaskExists(QString url) {
 bool DownloadFileManagerModel::checkTaskFinish(QString url) {
   bool finish = false;
 
-  QString check_finish_sql = "select _status from _download_info  where _url='" + url + "'";
+  QString check_finish_sql =
+      "select _status from _download_info  where _url='" + url + "'";
 
   if (sqlQuery.exec(check_finish_sql)) {
     while (sqlQuery.next()) {
